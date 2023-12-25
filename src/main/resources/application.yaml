@@ -1,0 +1,33 @@
+quarkus:
+  rest-client:
+    "br.com.infnet.service.ReceitaService":
+      url : http://localhost:8080/receita-server
+    logging:
+      scope: request-reponse
+      body-limit: 1024
+  http:
+    port: 8282
+  datasource:
+    db-kind : postgresql
+    username : postgres
+    password : 654321
+    jdbc:
+      url : jdbc:postgresql://localhost:5432/postgres
+    port: 5432
+  hibernate-orm:
+      database:
+        generation: update
+  otel:
+    exporter:
+      otlp:
+        traces:
+          endpoint: http://localhost:4317
+  jaeger:
+    service-name: RECEITA-SERVICE
+    sampler-type: const
+    sampler-param: 1
+    endpoint: http://localhost:14268/api/traces
+
+  log:
+    console:
+      format: %d{HH:mm:ss} %-5p traceId=%X{traceId}, parentId=%X{parentId}, spanId=%X{spanId}, sampled=%X{sampled} [%c{2.}] (%t) %s%e%n
